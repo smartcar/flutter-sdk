@@ -7,27 +7,27 @@ This plugin integrates the native SDKs:
 - [Smartcar Auth iOS SDK](https://smartcar.com/docs/tutorials/ios/introduction/)
 - [Smartcar Auth Android SDK](https://smartcar.com/docs/tutorials/android/introduction/)
 
-<h1>Installation</h1>
+## Installation
 
 ```
 dart pub add flutter_smartcar_auth
 ```
 
-<h1>Requirements</h1>
+## Requirements
 
-<h3>1. Sign up for a Smartcar account</h3>
+### 1. Sign up for a Smartcar account
 
 Go to the [developer dashboard](https://dashboard.smartcar.com/signup) to sign up with Smartcar.
 
-<h3>2. Retrieve your API keys</h3>
+### 2. Retrieve your API keys
 
 Once you have made your account, you will notice you already have an application with API keys.
 
-<h3>3. Configure your Redirect URI</h3>
+### 3. Configure your Redirect URI
 
 Navigate to the **Configuration** section within the dashboard and add a **redirect URI** with the following format: `“sc” + clientId + “://” + hostname`.
 
-<h3>Android</h3>
+### Android
 
 Set the following constants in your `app/src/main/res/values/strings.xml`:
 
@@ -55,11 +55,11 @@ Android applications use custom URI schemes to intercept calls and launch the re
 </activity>
 ```
 
-<h3>iOS</h3>
+### iOS
 
 The minimum iOS target version required is 11.
 
-<h2>Usage</h2>
+## Usage
 
 Import `package:flutter_smartcar_auth/flutter_smartcar_auth.dart` and use the methods in Smartcar class.
 

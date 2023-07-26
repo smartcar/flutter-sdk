@@ -39,7 +39,7 @@ flutter:
   plugin:
     platforms:
       android:
-        package: geekbears.com/flutter_smartcar_auth
+        package: geekbears.com.flutter_smartcar_auth
         pluginClass: FlutterSmartcarAuthPlugin
       ios:
         pluginClass: FlutterSmartcarAuthPlugin

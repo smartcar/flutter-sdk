@@ -1,5 +1,5 @@
 group 'geekbears.com.flutter_smartcar_auth'
-version '1.0.0'
+version '1.0.1'
 
 buildscript {
     ext.kotlin_version = '1.8.22'
