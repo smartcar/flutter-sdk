@@ -91,6 +91,8 @@ class FlutterSmartcarAuthPlugin : FlutterPlugin, MethodCallHandler, EventChannel
                     eventSink!!.success(data)
                 }
             }
+
+            result.success(null)
         } catch (error: Exception) {
             result.error("SETUP_SMARTCAR_ERROR", error.message, error.localizedMessage)
         }
@@ -122,6 +124,8 @@ class FlutterSmartcarAuthPlugin : FlutterPlugin, MethodCallHandler, EventChannel
                 }
 
                 smartcarAuth.launchAuthFlow(context, authUrl.build())
+
+                result.success(null)
             } else {
                 result.error("LAUNCH_AUTH_FLOW_ERROR", "SmartcarAuth is not configured yet, please call Smartcar.setup() first.", null)
             }
