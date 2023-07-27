@@ -49,8 +49,8 @@ Android applications use custom URI schemes to intercept calls and launch the re
         <category android:name="android.intent.category.DEFAULT" />
         <category android:name="android.intent.category.BROWSABLE" />
         <data
-            android:scheme="sc{YOUR_CLIENT_ID}"
-            android:host="{YOUR_HOST}"/>
+            android:scheme="@string/smartcar_auth_scheme"
+            android:host="@string/app_server"/>
     </intent-filter>
 </activity>
 ```

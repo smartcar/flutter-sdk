@@ -57,6 +57,8 @@ public class FlutterSmartcarAuthPlugin: NSObject, FlutterPlugin, FlutterStreamHa
         completionHandler: responseHandler,
         testMode: arguments["testMode"] as! Bool
       )
+
+      result(nil)
     } catch {
       result(
         FlutterError(
@@ -94,6 +96,8 @@ public class FlutterSmartcarAuthPlugin: NSObject, FlutterPlugin, FlutterStreamHa
         }
 
         try self.smartcarAuth!.launchAuthFlow(url: authUrl.build())
+
+        result(nil)
       } else {
         result(
           FlutterError(
