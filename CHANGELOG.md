@@ -1,3 +1,8 @@
+## 1.0.3
+
+* Infinite loop fix
+* Documentation improvements
+
 ## 1.0.2
 
 * Repository information updated
