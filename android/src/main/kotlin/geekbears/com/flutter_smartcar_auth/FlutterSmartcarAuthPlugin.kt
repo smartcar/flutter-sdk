@@ -9,6 +9,7 @@ import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 
+
 /** FlutterSmartcarAuthPlugin */
 class FlutterSmartcarAuthPlugin : FlutterPlugin, MethodCallHandler, EventChannel.StreamHandler {
 
@@ -76,6 +77,7 @@ class FlutterSmartcarAuthPlugin : FlutterPlugin, MethodCallHandler, EventChannel
                         "code" to it.code,
                         "state" to it.state,
                         "error" to it.error,
+                        "virtualKeyUrl" to it.virtualKeyUrl,
                         "errorDescription" to it.errorDescription
                     )
 
@@ -113,6 +115,10 @@ class FlutterSmartcarAuthPlugin : FlutterPlugin, MethodCallHandler, EventChannel
 
                 if (arguments["state"] != null) {
                     authUrl.setState(arguments["state"].toString())
+                }
+
+                if (arguments["flags"] != null) {
+                    authUrl.setFlags((arguments["flags"] as Array<*>).map { it.toString() }.toTypedArray())
                 }
 
                 if (arguments["make"] != null) {
