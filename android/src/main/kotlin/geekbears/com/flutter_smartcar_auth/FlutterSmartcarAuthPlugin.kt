@@ -114,11 +114,7 @@ class FlutterSmartcarAuthPlugin : FlutterPlugin, MethodCallHandler, EventChannel
                 if (arguments.containsKey("forcePrompt")) {
                     authUrl.setForcePrompt(arguments["forcePrompt"] as Boolean)
                 }
-
-                if (arguments.containsKey("flags")) {
-                    authUrl.setFlags(arrayOf(arguments["flags"].toString()))
-                }
-
+                
                 if (arguments.containsKey("singleSelect")) {
                     authUrl.setSingleSelect(arguments["singleSelect"] as Boolean)
                 }
