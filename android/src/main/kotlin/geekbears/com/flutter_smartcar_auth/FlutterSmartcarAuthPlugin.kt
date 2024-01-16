@@ -128,7 +128,7 @@ class FlutterSmartcarAuthPlugin : FlutterPlugin, MethodCallHandler, EventChannel
                 }
 
                 if (arguments["flags"] != null) {
-                    authUrl.setFlags((arguments["flags"] as Array<*>).map { it.toString() }.toTypedArray())
+                    authUrl.setFlags((arguments["flags"] as ArrayList<*>).map { it.toString() }.toTypedArray())
                 }
 
                 if (arguments["make"] != null) {
