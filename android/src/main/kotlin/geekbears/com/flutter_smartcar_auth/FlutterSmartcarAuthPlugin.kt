@@ -2,6 +2,7 @@ package geekbears.com.flutter_smartcar_auth
 
 import android.content.Context
 import com.smartcar.sdk.SmartcarAuth
+import com.smartcar.sdk.SmartcarCallback
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.plugin.common.EventChannel
 import io.flutter.plugin.common.EventChannel.EventSink
@@ -68,13 +69,18 @@ class FlutterSmartcarAuthPlugin : FlutterPlugin, MethodCallHandler, EventChannel
                 arguments["clientId"].toString(),
                 arguments["redirectUri"].toString(),
                 (arguments["scopes"] as List<String>).toTypedArray(),
-                arguments["testMode"] as Boolean
+
+                arguments["testMode"] as Boolean,
+
+
             )
             // Create a callback to handle the redirect response
             {
                 if (eventSink != null) {
+
                     val data: HashMap<String, Any> = hashMapOf(
                         "code" to it.code,
+                        "virtualKeyUrl" to it.virtualKeyUrl,
                         "state" to it.state,
                         "error" to it.error,
                         "virtualKeyUrl" to it.virtualKeyUrl,
@@ -107,6 +113,10 @@ class FlutterSmartcarAuthPlugin : FlutterPlugin, MethodCallHandler, EventChannel
 
                 if (arguments.containsKey("forcePrompt")) {
                     authUrl.setForcePrompt(arguments["forcePrompt"] as Boolean)
+                }
+
+                if (arguments.containsKey("flags")) {
+                    authUrl.setFlags(arrayOf(arguments["flags"].toString()))
                 }
 
                 if (arguments.containsKey("singleSelect")) {

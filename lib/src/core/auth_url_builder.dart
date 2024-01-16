@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 /// A class used for generating Smartcar Connect authorization URLs.
 class AuthUrlBuilder {
   /// Set to `true` to ensure the grant approval dialog is always shown
@@ -39,6 +42,10 @@ class AuthUrlBuilder {
   /// with a specific **VIN**.
   final String? vin;
 
+  /// List of feature flags that your application has early access to.
+
+  final List<String>? flags;
+
   /// A class used for generating Smartcar Connect authorization URLs.
   const AuthUrlBuilder({
     this.forcePrompt = false,
@@ -46,15 +53,17 @@ class AuthUrlBuilder {
     this.state,
     this.make,
     this.vin,
+    this.flags,
   });
 
   Map<String, dynamic> toMap() {
-    return {
-      "forcePrompt": forcePrompt,
-      "singleSelect": singleSelect,
-      "state": state,
-      "make": make,
-      "vin": vin,
+    return <String, dynamic>{
+      'forcePrompt': forcePrompt,
+      'singleSelect': singleSelect,
+      'state': state,
+      'make': make,
+      'vin': vin,
+      'flags': flags,
     };
   }
 
@@ -76,4 +85,19 @@ class AuthUrlBuilder {
         other.make == make &&
         other.vin == vin;
   }
+
+  factory AuthUrlBuilder.fromMap(dynamic map) {
+    return AuthUrlBuilder(
+      forcePrompt: map['forcePrompt'] as bool,
+      singleSelect: map['singleSelect'] as bool,
+      state: map['state'] != null ? map['state'] as String : null,
+      make: map['make'] != null ? map['make'] as String : null,
+      vin: map['vin'] != null ? map['vin'] as String : null,
+      flags: map['flags'] != null ? List<String>.from((map['flags'] as List<String>)) : null,
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory AuthUrlBuilder.fromJson(String source) => AuthUrlBuilder.fromMap(json.decode(source) as Map<String, dynamic>);
 }
