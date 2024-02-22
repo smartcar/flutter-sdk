@@ -63,12 +63,23 @@ class FlutterSmartcarAuthPlugin : FlutterPlugin, MethodCallHandler, EventChannel
     private fun setup(arguments: HashMap<String, Any>, result: MethodChannel.Result) {
         try {
             @Suppress("UNCHECKED_CAST")
-            smartcarAuth =
-                    SmartcarAuth(
-                            arguments["clientId"].toString(),
-                            arguments["redirectUri"].toString(),
-                            (arguments["scopes"] as List<String>).toTypedArray(),
-                            arguments["testMode"] as Boolean,
+            smartcarAuth = SmartcarAuth(
+                arguments["clientId"].toString(),
+                arguments["redirectUri"].toString(),
+                (arguments["scopes"] as List<String>).toTypedArray(),
+                arguments["testMode"] as Boolean,
+            )
+            // Create a callback to handle the redirect response
+            {
+                if (eventSink != null) {
+
+                    val data: HashMap<String, Any> = hashMapOf(
+                        "code" to it.code,
+                        "virtualKeyUrl" to it.virtualKeyUrl,
+                        "state" to it.state,
+                        "error" to it.error,
+                        "virtualKeyUrl" to it.virtualKeyUrl,
+                        "errorDescription" to it.errorDescription
                     )
                     // Create a callback to handle the redirect response
                     {
