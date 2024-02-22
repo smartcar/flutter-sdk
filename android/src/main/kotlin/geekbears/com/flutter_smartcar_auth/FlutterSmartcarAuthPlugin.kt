@@ -78,7 +78,6 @@ class FlutterSmartcarAuthPlugin : FlutterPlugin, MethodCallHandler, EventChannel
                         "virtualKeyUrl" to it.virtualKeyUrl,
                         "state" to it.state,
                         "error" to it.error,
-                        "virtualKeyUrl" to it.virtualKeyUrl,
                         "errorDescription" to it.errorDescription
                     )
                     // Create a callback to handle the redirect response
