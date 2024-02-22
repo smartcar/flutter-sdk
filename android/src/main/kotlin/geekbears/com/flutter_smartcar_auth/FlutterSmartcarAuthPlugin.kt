@@ -135,7 +135,10 @@ class FlutterSmartcarAuthPlugin : FlutterPlugin, MethodCallHandler, EventChannel
                     authUrl.setSingleSelectVin(arguments["vin"].toString())
                 }
 
-                smartcarAuth.launchAuthFlow(context, authUrl.build())
+                var url:String = authUrl.build().replace("test","simulated")
+
+
+                smartcarAuth.launchAuthFlow(context, url)
 
                 result.success(null)
             } else {
