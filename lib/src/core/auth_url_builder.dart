@@ -63,7 +63,7 @@ class AuthUrlBuilder {
       'state': state,
       'make': make,
       'vin': vin,
-      'flags': flags,
+      if (flags != null) 'flags': flags,
     };
   }
 
