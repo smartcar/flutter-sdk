@@ -35,9 +35,10 @@ class _MyAppState extends State<MyApp> {
                 onPressed: () async {
                   await Smartcar.setup(
                     configuration: const SmartcarConfig(
-                      clientId: "53ca1c3c-8acf-4b72-9572-5980ef03573a",
-                      redirectUri: "sc53ca1c3c-8acf-4b72-9572-5980ef03573a://exchange",
-                      scopes: [SmartcarPermission.readOdometer, SmartcarPermission.readFuel],
+                      clientId: "{YOUR_CLIENT_ID}",
+                      redirectUri: "sc{YOUR_CLIENT_ID}://{YOUR_HOST}",
+                      scopes: [SmartcarPermission.readOdometer],
+                      testMode: true,
                     ),
                   );
                 },
