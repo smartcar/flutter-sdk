@@ -69,10 +69,7 @@ class FlutterSmartcarAuthPlugin : FlutterPlugin, MethodCallHandler, EventChannel
                 arguments["clientId"].toString(),
                 arguments["redirectUri"].toString(),
                 (arguments["scopes"] as List<String>).toTypedArray(),
-
                 arguments["testMode"] as Boolean,
-
-
             )
             // Create a callback to handle the redirect response
             {
