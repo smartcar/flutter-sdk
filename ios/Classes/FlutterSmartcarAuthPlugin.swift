@@ -83,7 +83,7 @@ public class FlutterSmartcarAuthPlugin: NSObject, FlutterPlugin, FlutterStreamHa
           authUrl.setSingleSelect(singleSelect: arguments["singleSelect"] as! Bool)
         }
 
-        if (arguments.keys.contains("flags")) {
+        if (arguments.keys.contains("flags") && arguments["flags"] != nil) {
           authUrl.setFlags(flags: arguments["flags"] as! [String])
         }
 
