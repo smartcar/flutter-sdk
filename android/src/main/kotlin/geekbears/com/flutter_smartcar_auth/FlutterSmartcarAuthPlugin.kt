@@ -2,14 +2,12 @@ package geekbears.com.flutter_smartcar_auth
 
 import android.content.Context
 import com.smartcar.sdk.SmartcarAuth
-import com.smartcar.sdk.SmartcarCallback
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.plugin.common.EventChannel
 import io.flutter.plugin.common.EventChannel.EventSink
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
-
 
 /** FlutterSmartcarAuthPlugin */
 class FlutterSmartcarAuthPlugin : FlutterPlugin, MethodCallHandler, EventChannel.StreamHandler {
@@ -65,40 +63,39 @@ class FlutterSmartcarAuthPlugin : FlutterPlugin, MethodCallHandler, EventChannel
     private fun setup(arguments: HashMap<String, Any>, result: MethodChannel.Result) {
         try {
             @Suppress("UNCHECKED_CAST")
-            smartcarAuth = SmartcarAuth(
-                arguments["clientId"].toString(),
-                arguments["redirectUri"].toString(),
-                (arguments["scopes"] as List<String>).toTypedArray(),
-
-                arguments["testMode"] as Boolean,
-
-
-            )
-            // Create a callback to handle the redirect response
-            {
-                if (eventSink != null) {
-
-                    val data: HashMap<String, Any> = hashMapOf(
-                        "code" to it.code,
-                        "virtualKeyUrl" to it.virtualKeyUrl,
-                        "state" to it.state,
-                        "error" to it.error,
-                        "virtualKeyUrl" to it.virtualKeyUrl,
-                        "errorDescription" to it.errorDescription
+            smartcarAuth =
+                    SmartcarAuth(
+                            arguments["clientId"].toString(),
+                            arguments["redirectUri"].toString(),
+                            (arguments["scopes"] as List<String>).toTypedArray(),
+                            arguments["testMode"] as Boolean,
                     )
+                    // Create a callback to handle the redirect response
+                    {
+                        if (eventSink != null) {
 
-                    if (it.vehicleInfo != null) {
-                        data["vehicleInfo"] = hashMapOf(
-                            "vin" to it.vehicleInfo.vin,
-                            "make" to it.vehicleInfo.make,
-                            "model" to it.vehicleInfo.model,
-                            "year" to it.vehicleInfo.year
-                        )
+                            val data: HashMap<String, Any> =
+                                    hashMapOf(
+                                            "code" to it.code,
+                                            "virtualKeyUrl" to it.virtualKeyUrl,
+                                            "state" to it.state,
+                                            "error" to it.error,
+                                            "errorDescription" to it.errorDescription
+                                    )
+
+                            if (it.vehicleInfo != null) {
+                                data["vehicleInfo"] =
+                                        hashMapOf(
+                                                "vin" to it.vehicleInfo.vin,
+                                                "make" to it.vehicleInfo.make,
+                                                "model" to it.vehicleInfo.model,
+                                                "year" to it.vehicleInfo.year
+                                        )
+                            }
+
+                            eventSink!!.success(data)
+                        }
                     }
-
-                    eventSink!!.success(data)
-                }
-            }
 
             result.success(null)
         } catch (error: Exception) {
@@ -114,7 +111,7 @@ class FlutterSmartcarAuthPlugin : FlutterPlugin, MethodCallHandler, EventChannel
                 if (arguments.containsKey("forcePrompt")) {
                     authUrl.setForcePrompt(arguments["forcePrompt"] as Boolean)
                 }
-                
+
                 if (arguments.containsKey("singleSelect")) {
                     authUrl.setSingleSelect(arguments["singleSelect"] as Boolean)
                 }
@@ -124,7 +121,11 @@ class FlutterSmartcarAuthPlugin : FlutterPlugin, MethodCallHandler, EventChannel
                 }
 
                 if (arguments["flags"] != null) {
-                    authUrl.setFlags((arguments["flags"] as ArrayList<*>).map { it.toString() }.toTypedArray())
+                    authUrl.setFlags(
+                            (arguments["flags"] as ArrayList<*>)
+                                    .map { it.toString() }
+                                    .toTypedArray()
+                    )
                 }
 
                 if (arguments["make"] != null) {
@@ -135,20 +136,20 @@ class FlutterSmartcarAuthPlugin : FlutterPlugin, MethodCallHandler, EventChannel
                     authUrl.setSingleSelectVin(arguments["vin"].toString())
                 }
 
-                var url:String = authUrl.build()
-
+                var url: String = authUrl.build()
 
                 smartcarAuth.launchAuthFlow(context, url)
 
                 result.success(null)
             } else {
-                result.error("LAUNCH_AUTH_FLOW_ERROR", "SmartcarAuth is not configured yet, please call Smartcar.setup() first.", null)
+                result.error(
+                        "LAUNCH_AUTH_FLOW_ERROR",
+                        "SmartcarAuth is not configured yet, please call Smartcar.setup() first.",
+                        null
+                )
             }
-
         } catch (error: Exception) {
             result.error("LAUNCH_AUTH_FLOW_ERROR", error.message, error.localizedMessage)
         }
-
     }
 }
-
