@@ -83,6 +83,10 @@ public class FlutterSmartcarAuthPlugin: NSObject, FlutterPlugin, FlutterStreamHa
           authUrl.setSingleSelect(singleSelect: arguments["singleSelect"] as! Bool)
         }
 
+        if (arguments.keys.contains("flags") && arguments["flags"] != nil) {
+          authUrl.setFlags(flags: arguments["flags"] as! [String])
+        }
+
         if (arguments["state"] != nil && arguments["state"] is String) {
           authUrl.setState(state: arguments["state"] as! String)
         }
@@ -95,7 +99,9 @@ public class FlutterSmartcarAuthPlugin: NSObject, FlutterPlugin, FlutterStreamHa
           authUrl.setSingleSelectVin(vin: arguments["vin"] as! String)
         }
 
-        try self.smartcarAuth!.launchAuthFlow(url: authUrl.build())
+        let url = authUrl.build()
+
+        try self.smartcarAuth!.launchAuthFlow(url: url)
 
         result(nil)
       } else {
@@ -121,12 +127,13 @@ public class FlutterSmartcarAuthPlugin: NSObject, FlutterPlugin, FlutterStreamHa
 
   /// Method to handle the SmartcarAuth response
 
-  private func responseHandler(code: String?, state: String?, error: AuthorizationError?) -> Void {
+  private func responseHandler(code: String?, state: String?, virtualKeyUrl: String? ,error: AuthorizationError?) -> Void {
     do {
       if (eventSink != nil) {
         let data: [String : Any?] = [
           "code": code,
           "state": state,
+          "virtualKeyUrl":virtualKeyUrl,
           "error": error?.description,
         ]
         try eventSink!(data)

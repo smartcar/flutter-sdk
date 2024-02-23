@@ -50,6 +50,19 @@ class _MyAppState extends State<MyApp> {
                 },
                 child: const Text("Launch Auth Flow"),
               ),
+              MaterialButton(
+                onPressed: () async {
+                  await Smartcar.launchAuthFlow(
+                    authUrlBuilder: const AuthUrlBuilder(
+                      flags: [
+                        'tesla_auth:true',
+                      ],
+                      singleSelect: true,
+                    ),
+                  );
+                },
+                child: const Text("Launch Auth Flow with Tesla Flag"),
+              ),
             ],
           ),
         ),

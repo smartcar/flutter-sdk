@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 /// A class that handles the response from Smartcar Connect.
 class SmartcarAuthResponse {
   const SmartcarAuthResponse({
@@ -5,6 +7,7 @@ class SmartcarAuthResponse {
     required this.error,
     required this.state,
     required this.errorDescription,
+    this.virtualKeyUrl,
   });
 
   /// The code received after the user grants permission.
@@ -20,39 +23,36 @@ class SmartcarAuthResponse {
   /// The error description.
   final String? errorDescription;
 
-  factory SmartcarAuthResponse.fromMap(dynamic map) {
-    return SmartcarAuthResponse(
-      code: map["code"],
-      error: map["error"],
-      state: map["state"],
-      errorDescription: map["errorDescription"],
-    );
+  /// virtualKeyUrl
+  final String? virtualKeyUrl;
+
+  @override
+  String toString() {
+    return 'SmartcarAuthResponse(code: $code, error: $error, state: $state, errorDescription: $errorDescription, virtualKeyUrl: $virtualKeyUrl)';
   }
 
   Map<String, dynamic> toMap() {
-    return {
-      "code": code,
-      "error": error,
-      "state": state,
-      "errorDescription": errorDescription,
+    return <String, dynamic>{
+      'code': code,
+      'error': error,
+      'state': state,
+      'errorDescription': errorDescription,
+      'virtualKeyUrl': virtualKeyUrl,
     };
   }
 
-  @override
-  String toString() =>
-      "SmartcarAuthResponse(\ncode: $code,\nerror: $error,\nstate: $state,\nerrorDescription: $errorDescription\n}\n)";
-
-  @override
-  int get hashCode => code.hashCode ^ error.hashCode ^ state.hashCode ^ errorDescription.hashCode;
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(other, this)) return true;
-
-    return other is SmartcarAuthResponse &&
-        other.code == code &&
-        other.error == error &&
-        other.state == state &&
-        other.errorDescription == errorDescription;
+  factory SmartcarAuthResponse.fromMap(dynamic map) {
+    return SmartcarAuthResponse(
+      code: map['code'] != null ? map['code'] as String : null,
+      error: map['error'] != null ? map['error'] as String : null,
+      state: map['state'] != null ? map['state'] as String : null,
+      errorDescription: map['errorDescription'] != null ? map['errorDescription'] as String : null,
+      virtualKeyUrl: map['virtualKeyUrl'] != null ? map['virtualKeyUrl'] as String : null,
+    );
   }
+
+  String toJson() => json.encode(toMap());
+
+  factory SmartcarAuthResponse.fromJson(String source) =>
+      SmartcarAuthResponse.fromMap(json.decode(source) as Map<String, dynamic>);
 }
