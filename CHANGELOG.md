@@ -1,3 +1,10 @@
+## 1.0.4
+
+* Upgraded Android **Smartcar-Auth SDK** to `3.2.0`.
+* Upgraded iOS **SmartcarAuth SDK** to `5.3.1`.
+* New property `flags` can be set on **AuthUrlBuilder** class.
+* New property `virtualKeyUrl` on **SmartcarAuthResponse** class.
+
 ## 1.0.3
 
 * Infinite loop fix
