@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 /// A class used for generating Smartcar Connect authorization URLs.
 class AuthUrlBuilder {
   /// Set to `true` to ensure the grant approval dialog is always shown

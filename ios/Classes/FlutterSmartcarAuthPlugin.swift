@@ -99,9 +99,9 @@ public class FlutterSmartcarAuthPlugin: NSObject, FlutterPlugin, FlutterStreamHa
           authUrl.setSingleSelectVin(vin: arguments["vin"] as! String)
         }
 
-        let modified = authUrl.build().replacingOccurrences(of: "test", with: "simulated", options: .literal, range: nil)
+        let url = authUrl.build()
 
-        try self.smartcarAuth!.launchAuthFlow(url: modified)
+        try self.smartcarAuth!.launchAuthFlow(url: url)
 
         result(nil)
       } else {
