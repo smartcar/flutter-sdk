@@ -1,3 +1,6 @@
+## 1.0.5
+*  Updated repository location
+
 ## 1.0.4
 
 * Upgraded Android **Smartcar-Auth SDK** to `3.2.0`.
