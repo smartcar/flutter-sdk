@@ -27,7 +27,7 @@ enum SmartcarPermission {
   readEngineOil("read_engine_oil"),
 
   /// Lock or unlock your vehicle.
-  controlSecutiry("control_security"),
+  controlSecurity("control_security"),
 
   /// Know the compass direction your vehicle is facing.
   readCompass("read_compass"),
