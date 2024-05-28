@@ -1,6 +1,6 @@
 PODS:
   - Flutter (1.0.0)
-  - flutter_smartcar_auth (1.0.4):
+  - flutter_smartcar_auth (1.0.6):
     - Flutter
     - SmartcarAuth (= 5.3.1)
   - SmartcarAuth (5.3.1)
@@ -21,9 +21,9 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
-  flutter_smartcar_auth: 028602617a94d4b75f792c9581a4559375eadcd7
+  flutter_smartcar_auth: 07421a0bbfbbd1cb012a784d31944f584fc3c453
   SmartcarAuth: 5d329bc76b8c984b046246a53d495ff279b57167
 
 PODFILE CHECKSUM: 7368163408c647b7eb699d0d788ba6718e18fb8d
 
-COCOAPODS: 1.13.0
+COCOAPODS: 1.15.2

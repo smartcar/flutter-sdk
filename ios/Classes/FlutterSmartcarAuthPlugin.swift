@@ -13,8 +13,8 @@ public class FlutterSmartcarAuthPlugin: NSObject, FlutterPlugin, FlutterStreamHa
   /// FlutterPlugin
     
   public static func register(with registrar: FlutterPluginRegistrar) {
-    let methodChannel = FlutterMethodChannel(name: "geekbears/flutter_smartcar_auth", binaryMessenger: registrar.messenger())
-    let eventChannel = FlutterEventChannel(name: "geekbears/flutter_smartcar_auth/events", binaryMessenger: registrar.messenger())
+    let methodChannel = FlutterMethodChannel(name: "smartcar/flutter_smartcar_auth", binaryMessenger: registrar.messenger())
+    let eventChannel = FlutterEventChannel(name: "smartcar/flutter_smartcar_auth/events", binaryMessenger: registrar.messenger())
     let instance: FlutterSmartcarAuthPlugin = FlutterSmartcarAuthPlugin()
     eventChannel.setStreamHandler(instance)
     registrar.addMethodCallDelegate(instance, channel: methodChannel)

@@ -1,9 +1,9 @@
 name: flutter_smartcar_auth
 description: SmartcarAuth for Flutter which integrates the native iOS & Android SDKs.
 version: 1.0.5
-homepage: https://geekbears.com
-repository: https://gitlab.com/geekbears/public/utilities/flutter/packages/flutter-smartcar-auth.git
-issue_tracker: https://gitlab.com/geekbears/public/utilities/flutter/packages/flutter-smartcar-auth.git/-/issues
+homepage: https://smartcar.com
+repository: https://github.com/smartcar/flutter-sdk
+issue_tracker: https://github.com/smartcar/flutter-sdk/issues
 screenshots:
   - description: Smartcar logo
     path: doc/logo.png
@@ -39,7 +39,7 @@ flutter:
   plugin:
     platforms:
       android:
-        package: geekbears.com.flutter_smartcar_auth
+        package: smartcar.com.flutter_smartcar_auth
         pluginClass: FlutterSmartcarAuthPlugin
       ios:
         pluginClass: FlutterSmartcarAuthPlugin
