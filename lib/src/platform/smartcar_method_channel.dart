@@ -7,10 +7,10 @@ import 'smartcar_platform_interface.dart';
 
 class SmartcarMethodChannel extends SmartcarPlatformInterface {
   /// The method channel used to interact with the native platform.
-  final MethodChannel _channel = const MethodChannel('geekbears/flutter_smartcar_auth');
+  final MethodChannel _channel = const MethodChannel('smartcar/flutter_smartcar_auth');
 
   /// The event channel used to receive changes from the native platform.
-  final EventChannel _eventChannel = const EventChannel('geekbears/flutter_smartcar_auth/events');
+  final EventChannel _eventChannel = const EventChannel('smartcar/flutter_smartcar_auth/events');
 
   /// A broadcast stream from the native platform
   @override

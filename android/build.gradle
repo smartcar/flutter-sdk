@@ -1,4 +1,4 @@
-group 'geekbears.com.flutter_smartcar_auth'
+group 'smartcar.com.flutter_smartcar_auth'
 version '1.0.4'
 
 buildscript {

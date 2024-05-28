@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="geekbears.com.flutter_smartcar_auth_example">
+    package="smartcar.com.flutter_smartcar_auth_example">
 
     <application
         android:name="${applicationName}"

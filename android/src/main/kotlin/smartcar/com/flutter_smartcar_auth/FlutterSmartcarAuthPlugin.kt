@@ -1,4 +1,4 @@
-package geekbears.com.flutter_smartcar_auth
+package smartcar.com.flutter_smartcar_auth
 
 import android.content.Context
 import com.smartcar.sdk.SmartcarAuth
@@ -12,8 +12,8 @@ import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 /** FlutterSmartcarAuthPlugin */
 class FlutterSmartcarAuthPlugin : FlutterPlugin, MethodCallHandler, EventChannel.StreamHandler {
 
-    private val METHOD_CHANNEL_NAME = "geekbears/flutter_smartcar_auth"
-    private val EVENT_CHANNEL_NAME = "geekbears/flutter_smartcar_auth/events"
+    private val METHOD_CHANNEL_NAME = "smartcar/flutter_smartcar_auth"
+    private val EVENT_CHANNEL_NAME = "smartcar/flutter_smartcar_auth/events"
 
     private lateinit var context: Context
     private lateinit var methodChannel: MethodChannel

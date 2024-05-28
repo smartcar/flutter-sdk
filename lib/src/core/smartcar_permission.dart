@@ -53,24 +53,23 @@ enum SmartcarPermission {
   /// Set the temperature of your vehicle's climate control system.
   controlClimate("control_climate"),
 
-  ///Access previous charging locations and their associated charging configurations
+  /// Access previous charging locations and their associated charging configurations
   readChargeLocations("read_charge_locations"),
 
-  ///Read charge records and associated billing information
+  /// Read charge records and associated billing information
   readChargeRecords("read_charge_records"),
 
-  ///Receive notifications for events associate with charging
+  /// Receive notifications for events associate with charging
   readChargeEvents("read_charge_events"),
 
-  ///Read the lock status of doors, windows, charging port, etc.
+  /// Read the lock status of doors, windows, charging port, etc.
   readSecurity("read_security"),
 
-  ///Send commands to the vehicle’s navigation system
+  /// Send commands to the vehicle’s navigation system
   controlNavigation("control_navigation"),
 
-  ///Open a vehicle’s trunk or frunk
+  /// Open a vehicle’s trunk or frunk
   controlTrunk("control_trunk");
-
 
   const SmartcarPermission(this.value);
 
