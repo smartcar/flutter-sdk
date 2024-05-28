@@ -1,3 +1,8 @@
+## 1.0.6 
+*  Updated spelling for `controlSecurity` enum. **Thanks to @nick.maiello**. 
+*  Added new missing permissions in `SmartcarPermission` enum. **Thanks to @nick.maiello**. 
+*  Updated repository location.
+
 ## 1.0.5
 *  Updated repository location
 
