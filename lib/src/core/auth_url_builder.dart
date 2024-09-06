@@ -21,8 +21,8 @@ class AuthUrlBuilder {
 
   /// Set an optional state parameter
   ///
-  /// An optional value included on the [SmartcarResponse](https://smartcar.github.io/android-sdk/com/smartcar/sdk/SmartcarResponse.html) object
-  /// returned to the [SmartcarCallback](https://smartcar.github.io/android-sdk/com/smartcar/sdk/SmartcarCallback.html).
+  /// An optional value included on the [SmartcarResponse](https://javadoc.io/doc/com.smartcar.sdk/smartcar-auth/latest/com/smartcar/sdk/SmartcarResponse.html) object
+  /// returned to the [SmartcarCallback](https://javadoc.io/doc/com.smartcar.sdk/smartcar-auth/latest/com/smartcar/sdk/SmartcarCallback.html).
   final String? state;
 
   /// The selected make
@@ -36,7 +36,7 @@ class AuthUrlBuilder {
   ///
   /// Specify the vin a user can authorize in Smartcar Connect.
   ///
-  /// When the [setSingleSelect(boolean)](https://smartcar.github.io/android-sdk/com/smartcar/sdk/SmartcarAuth.AuthUrlBuilder.html#setSingleSelect-boolean-)
+  /// When the [setSingleSelect(boolean)](https://javadoc.io/doc/com.smartcar.sdk/smartcar-auth/latest/com/smartcar/sdk/SmartcarAuth.AuthUrlBuilder.html#setSingleSelect-boolean-)
   /// is set to `true`, this parameter can be used to ensure that Smartcar Connect <br> will allow the user to authorize only the vehicle
   /// with a specific **VIN**.
   final String? vin;
