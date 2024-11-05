@@ -85,7 +85,7 @@ public class FlutterSmartcarAuthPlugin: NSObject, FlutterPlugin, FlutterStreamHa
     private func launchAuthFlow(arguments: Dictionary<String, Any?>, result: FlutterResult) -> Void {
         do {
             if (self.smartcarAuth != nil) {
-                var authUrl = self.smartcarAuth!.authUrlBuilder()
+                let authUrl = self.smartcarAuth!.authUrlBuilder()
                 
                 arguments.forEach { body in
                     authUrlActions[body.key]?(authUrl, body.value)
@@ -129,7 +129,7 @@ public class FlutterSmartcarAuthPlugin: NSObject, FlutterPlugin, FlutterStreamHa
                 ]
             } else {
                 data = [
-                    "type": error!.type,
+                    "type": error!.type.stringValue,
                     "description": error!.errorDescription,
                 ]
             }

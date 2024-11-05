@@ -132,7 +132,7 @@ class FlutterSmartcarAuthPlugin : FlutterPlugin, MethodCallHandler, EventChannel
         if (eventSink != null) {
             val data: HashMap<String, Any> = hashMapOf()
 
-            if (smartcarResponse.code.isNotEmpty()) {
+            if (smartcarResponse.error == null) {
                 data.putAll(
                     hashMapOf(
                         "code" to smartcarResponse.code,

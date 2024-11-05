@@ -1,8 +1,6 @@
 import 'package:flutter/services.dart';
 
-import '../core/auth_url_builder.dart';
-import '../core/smartcar_auth_response.dart';
-import '../core/smartcar_config.dart';
+import '../core/core.dart';
 import 'smartcar_platform_interface.dart';
 
 class SmartcarMethodChannel extends SmartcarPlatformInterface {
@@ -15,7 +13,7 @@ class SmartcarMethodChannel extends SmartcarPlatformInterface {
   /// A broadcast stream from the native platform
   @override
   Stream<SmartcarAuthResponse> get onEvent => _eventChannel.receiveBroadcastStream().map(
-        (event) => SmartcarAuthResponse.fromMap(event),
+        (event) => SmartcarAuthResponse.fromMap(Map<String, dynamic>.from(event)),
       );
 
   /// Creates the `SmartcarAuth` instance with the given values in `SmartcarConfig` class
