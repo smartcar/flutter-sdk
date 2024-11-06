@@ -1,7 +1,5 @@
-import 'dart:convert';
-
 /// A class used for generating Smartcar Connect authorization URLs.
-class AuthUrlBuilder {
+final class AuthUrlBuilder {
   /// Set to `true` to ensure the grant approval dialog is always shown
   ///
   /// Force display of the grant approval dialog in Smartcar Connect.
@@ -45,6 +43,9 @@ class AuthUrlBuilder {
 
   final List<String>? flags;
 
+  /// Specify a unique identifier for the vehicle owner to track and aggregate analytics across Connect sessions for each vehicle owner.
+  final String? user;
+
   /// A class used for generating Smartcar Connect authorization URLs.
   const AuthUrlBuilder({
     this.forcePrompt = false,
@@ -53,25 +54,43 @@ class AuthUrlBuilder {
     this.make,
     this.vin,
     this.flags,
+    this.user,
   });
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'forcePrompt': forcePrompt,
       'singleSelect': singleSelect,
-      'state': state,
-      'make': make,
-      'vin': vin,
+      if (state != null) 'state': state,
+      if (make != null) 'make': make,
+      if (vin != null) 'vin': vin,
       if (flags != null) 'flags': flags,
+      if (user != null) 'user': user,
     };
   }
 
   @override
-  String toString() =>
-      "SmartcarConfig(\nforcePrompt: $forcePrompt,\nsingleSelect: $singleSelect,\nstate: $state,\nmake: $make,\nvin: $vin\n)";
+  String toString() {
+    return 'AuthUrlBuilder(\n'
+        '\tforcePrompt: $forcePrompt,\n'
+        '\tsingleSelect: $singleSelect,\n'
+        '\tstate: $state,\n'
+        '\tmake: $make,\n'
+        '\tvin: $vin,\n'
+        '\tflags: $flags,\n'
+        '\tuser: $user,\n'
+        ')';
+  }
 
   @override
-  int get hashCode => forcePrompt.hashCode ^ singleSelect.hashCode ^ state.hashCode ^ make.hashCode ^ vin.hashCode;
+  int get hashCode => Object.hash(
+        forcePrompt.hashCode,
+        singleSelect.hashCode,
+        state.hashCode,
+        make.hashCode,
+        vin.hashCode,
+        user.hashCode,
+      );
 
   @override
   bool operator ==(Object other) {
@@ -82,21 +101,7 @@ class AuthUrlBuilder {
         other.singleSelect == singleSelect &&
         other.state == state &&
         other.make == make &&
-        other.vin == vin;
+        other.vin == vin &&
+        other.user == user;
   }
-
-  factory AuthUrlBuilder.fromMap(dynamic map) {
-    return AuthUrlBuilder(
-      forcePrompt: map['forcePrompt'] as bool,
-      singleSelect: map['singleSelect'] as bool,
-      state: map['state'] != null ? map['state'] as String : null,
-      make: map['make'] != null ? map['make'] as String : null,
-      vin: map['vin'] != null ? map['vin'] as String : null,
-      flags: map['flags'] != null ? List<String>.from((map['flags'] as List<String>)) : null,
-    );
-  }
-
-  String toJson() => json.encode(toMap());
-
-  factory AuthUrlBuilder.fromJson(String source) => AuthUrlBuilder.fromMap(json.decode(source) as Map<String, dynamic>);
 }

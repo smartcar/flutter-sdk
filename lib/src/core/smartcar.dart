@@ -4,7 +4,7 @@ import 'smartcar_auth_response.dart';
 import 'smartcar_config.dart';
 
 /// Provides **SmartcarAuth** drop in functionality.
-class Smartcar {
+abstract final class Smartcar {
   static SmartcarPlatformInterface get _platform => SmartcarPlatformInterface.instance;
 
   /// A broadcast stream to listen for Smartcar Connect response<br>

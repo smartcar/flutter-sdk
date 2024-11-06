@@ -1,58 +1,100 @@
-import 'dart:convert';
+import 'core.dart';
 
-/// A class that handles the response from Smartcar Connect.
-class SmartcarAuthResponse {
-  const SmartcarAuthResponse({
+/// The parent class that handles the response from Smartcar Connect.
+sealed class SmartcarAuthResponse {
+  const SmartcarAuthResponse();
+
+  static SmartcarAuthResponse fromMap(Map<String, dynamic> map) {
+    if (map["code"] != null) {
+      return SmartcarAuthSuccess.fromMap(map);
+    } else {
+      return SmartcarAuthFailure.fromMap(map);
+    }
+  }
+}
+
+/// A class that handles the success response from Smartcar Connect.
+final class SmartcarAuthSuccess extends SmartcarAuthResponse {
+  const SmartcarAuthSuccess({
     required this.code,
-    required this.error,
     required this.state,
-    required this.errorDescription,
-    this.virtualKeyUrl,
+    required this.virtualKeyUrl,
   });
 
   /// The code received after the user grants permission.
   final String? code;
 
-  /// Error that gets created when the authorization flow exits with an error.
-  final String? error;
-
-  /// If the optional `state` parameter is provided in `AuthUrlBuilder`<br>
-  /// then it will be returned.
+  /// If the optional `state` parameter is provided in `AuthUrlBuilder` then it will be returned.
   final String? state;
 
-  /// The error description.
-  final String? errorDescription;
-
-  /// virtualKeyUrl
   final String? virtualKeyUrl;
 
-  @override
-  String toString() {
-    return 'SmartcarAuthResponse(code: $code, error: $error, state: $state, errorDescription: $errorDescription, virtualKeyUrl: $virtualKeyUrl)';
-  }
-
-  Map<String, dynamic> toMap() {
-    return <String, dynamic>{
-      'code': code,
-      'error': error,
-      'state': state,
-      'errorDescription': errorDescription,
-      'virtualKeyUrl': virtualKeyUrl,
-    };
-  }
-
-  factory SmartcarAuthResponse.fromMap(dynamic map) {
-    return SmartcarAuthResponse(
-      code: map['code'] != null ? map['code'] as String : null,
-      error: map['error'] != null ? map['error'] as String : null,
-      state: map['state'] != null ? map['state'] as String : null,
-      errorDescription: map['errorDescription'] != null ? map['errorDescription'] as String : null,
-      virtualKeyUrl: map['virtualKeyUrl'] != null ? map['virtualKeyUrl'] as String : null,
+  factory SmartcarAuthSuccess.fromMap(Map<String, dynamic> map) {
+    return SmartcarAuthSuccess(
+      code: map["code"],
+      state: map["state"],
+      virtualKeyUrl: map["virtualKeyUrl"],
     );
   }
 
-  String toJson() => json.encode(toMap());
+  @override
+  String toString() {
+    return 'SmartcarAuthSuccess(\n'
+        '\tcode: $code,\n'
+        '\tstate: $state,\n'
+        '\tvirtualKeyUrl: $virtualKeyUrl,\n'
+        ')';
+  }
 
-  factory SmartcarAuthResponse.fromJson(String source) =>
-      SmartcarAuthResponse.fromMap(json.decode(source) as Map<String, dynamic>);
+  @override
+  int get hashCode => Object.hash(code.hashCode, state.hashCode, virtualKeyUrl.hashCode);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+
+    return other is SmartcarAuthSuccess &&
+        other.code == code &&
+        other.state == state &&
+        other.virtualKeyUrl == virtualKeyUrl;
+  }
+}
+
+/// A class that handles the failure response from Smartcar Connect.
+final class SmartcarAuthFailure extends SmartcarAuthResponse {
+  const SmartcarAuthFailure({
+    required this.type,
+    required this.description,
+  });
+
+  /// Error type that gets created when the authorization flow exits with an error.
+  final SmartcarErrorType? type;
+
+  /// The error description.
+  final String? description;
+
+  factory SmartcarAuthFailure.fromMap(Map<String, dynamic> map) {
+    return SmartcarAuthFailure(
+      type: SmartcarErrorType.fromRawValue(map["type"] ?? ''),
+      description: map["description"],
+    );
+  }
+
+  @override
+  String toString() {
+    return 'SmartcarAuthFailure(\n'
+        '\ttype: $type,\n'
+        '\tdescription: $description,\n'
+        ')';
+  }
+
+  @override
+  int get hashCode => Object.hash(type, description);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+
+    return other is SmartcarAuthFailure && other.type == type && other.description == description;
+  }
 }
