@@ -1,3 +1,15 @@
+## 2.0.0 [Breaking Changes]
+* **BREAKING CHANGE**: Android compile SDK version has been upgraded to `34`.
+* **BREAKING CHANGE**: iOS minimum version has been upgraded to `13`.
+* **BREAKING CHANGE**: Dart minimum SDK version has been upgraded to `>=3.2.0 <4.0.0`.
+* **BREAKING REFACTOR**: removed `testMode` property from `SmartcarConfig` class. 
+* **BREAKING REFACTOR**: `SmartcarAuthResponse` is now a **sealed class**.<br>
+* **FEAT**: added two new child classes of `SmartcarAuthResponse`
+  1. `SmartcarAuthSuccess`: created after a success response from Smartcar Connect.
+  2. `SmartcarAuthFailure`: created after a failed response from Smartcar Connect.
+* **FEAT**: added `mode` property to `SmartcarConfig` class.
+* **FEAT**: added `user` property to `AuthUrlBuilder` class.
+
 ## 1.0.6 
 *  Updated spelling for `controlSecurity` enum. **Thanks to @nick.maiello**. 
 *  Added new missing permissions in `SmartcarPermission` enum. **Thanks to @nick.maiello**. 
