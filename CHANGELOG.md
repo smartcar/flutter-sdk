@@ -2,6 +2,8 @@
 * **BREAKING CHANGE**: Android compile SDK version has been upgraded to `34`.
 * **BREAKING CHANGE**: iOS minimum version has been upgraded to `13`.
 * **BREAKING CHANGE**: Dart minimum SDK version has been upgraded to `>=3.2.0 <4.0.0`.
+* **BREAKING CHANGE**: upgraded SmartcarAuth iOS SDK to `6.0.2`.
+* **BREAKING CHANGE**: upgraded SmartcarAuth Android SDK to `4.0.1`.
 * **BREAKING REFACTOR**: removed `testMode` property from `SmartcarConfig` class. 
 * **BREAKING REFACTOR**: `SmartcarAuthResponse` is now a **sealed class**.<br>
 * **FEAT**: added two new child classes of `SmartcarAuthResponse`
