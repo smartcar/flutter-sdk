@@ -1,3 +1,6 @@
+## 2.0.1
+* Fixes on iOS .podspec Added missing 'Extensions' folder. **Thanks to sthefannygonzaga@gmail.com**. 
+
 ## 2.0.0 [Breaking Changes]
 * **BREAKING CHANGE**: Android compile SDK version has been upgraded to `34`.
 * **BREAKING CHANGE**: iOS minimum version has been upgraded to `13`.
