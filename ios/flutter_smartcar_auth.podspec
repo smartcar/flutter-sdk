@@ -13,7 +13,7 @@ Pod::Spec.new do |s|
   s.license          = { :file => '../LICENSE' }
   s.author           = { 'Smartcar' => 'support@smartcar.com' }
   s.source           = { :path => '.' }
-  s.source_files = 'Classes/**/*'
+  s.source_files = 'Classes/**/*', 'Extensions/**/*'
   s.dependency 'Flutter'
   s.dependency 'SmartcarAuth', '6.0.2'
   s.platform = :ios, '13.0'
