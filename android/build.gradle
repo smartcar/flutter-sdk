@@ -47,6 +47,6 @@ android {
     }
 
     dependencies {
-        implementation 'com.smartcar.sdk:smartcar-auth:4.3.0'
+        implementation 'com.smartcar.sdk:smartcar-auth:4.3.1'
     }
 }
