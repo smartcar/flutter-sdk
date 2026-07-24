@@ -18,6 +18,9 @@ extension AuthorizationError.ErrorType {
         case .unknownError: return "unknownError"
         case .userExitedFlow: return "userExitedFlow"
         case .vehicleIncompatible: return "vehicleIncompatible"
+        case .configurationError: return "configurationError"
+        case .noVehicles: return "noVehicles"
+        case .serverError: return "serverError"
         }
     }
 }

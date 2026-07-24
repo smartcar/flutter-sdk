@@ -128,9 +128,11 @@ class FlutterSmartcarAuthPlugin : FlutterPlugin, MethodCallHandler, EventChannel
         }
     }
 
-    private fun responseHandler(smartcarResponse: SmartcarResponse) {
+    private fun responseHandler(smartcarResponse: SmartcarResponse?) {
+        if (smartcarResponse == null) return
+
         if (eventSink != null) {
-            val data: HashMap<String, Any> = hashMapOf()
+            val data: HashMap<String, Any?> = hashMapOf()
 
             if (smartcarResponse.error == null) {
                 data.putAll(

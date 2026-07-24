@@ -8,6 +8,9 @@ enum SmartcarErrorType {
   vehicleIncompatible,
   invalidSubscription,
   userExitedFlow,
+  configurationError,
+  noVehicles,
+  serverError,
   unknownError;
 
   static SmartcarErrorType fromRawValue(String raw) {

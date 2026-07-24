@@ -1,3 +1,10 @@
+## 2.1.0
+* Upgraded SmartcarAuth iOS SDK to `6.5.0`.
+* Upgraded SmartcarAuth Android SDK to `4.3.0`.
+* Android compile SDK version upgraded to `35` (required by the transitive AndroidX dependencies of smartcar-auth `4.3.0`).
+* Android: `SmartcarCallback` is now a Kotlin `fun interface` with a nullable `SmartcarResponse?`; the plugin's response handler accepts the nullable type and no-ops on null.
+* Added `configurationError`, `noVehicles`, and `serverError` to `SmartcarErrorType` (new iOS SDK error types).
+
 ## 2.0.1
 * Fixes on iOS .podspec Added missing 'Extensions' folder. **Thanks to sthefannygonzaga@gmail.com**. 
 
