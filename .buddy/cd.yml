@@ -11,7 +11,7 @@
     docker_image_tag: "bookworm-slim"
     execute_commands:
     - "export PATH=\"$PATH:/opt/flutter/bin\""
-    - "if [ ! -d /opt/flutter ]; then"
+    - "if [ ! -x /opt/flutter/bin/flutter ]; then"
     - "  git clone https://github.com/flutter/flutter.git -b stable --depth 1 /opt/flutter"
     - "fi"
     - "flutter --disable-analytics"
