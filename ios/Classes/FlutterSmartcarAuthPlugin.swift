@@ -86,22 +86,40 @@ public class FlutterSmartcarAuthPlugin: NSObject, FlutterPlugin, FlutterStreamHa
         result(nil)
     }
     
+    private func rootViewController() -> UIViewController? {
+        return UIApplication.shared.connectedScenes
+            .compactMap { $0 as? UIWindowScene }
+            .flatMap { $0.windows }
+            .first { $0.isKeyWindow }?.rootViewController
+    }
+
     private func launchAuthFlow(arguments: Dictionary<String, Any?>, result: FlutterResult) -> Void {
         do {
             if (self.smartcarAuth != nil) {
+                guard let viewController = rootViewController() else {
+                    result(
+                        FlutterError(
+                            code: "LAUNCH_AUTH_FLOW_ERROR",
+                            message: "Unable to find a root view controller to present Smartcar Connect.",
+                            details: nil
+                        )
+                    )
+                    return
+                }
+
                 let authUrl = self.smartcarAuth!.authUrlBuilder()
-                
+
                 arguments.forEach { body in
                     authUrlActions[body.key]?(authUrl, body.value)
                 }
-                
+
                 let url = authUrl.build()
-                
+
                 self.smartcarAuth!.launchAuthFlow(
                     url: url,
-                    viewController: UIApplication.shared.delegate!.window!!.rootViewController!
+                    viewController: viewController
                 )
-                
+
                 result(nil)
             } else {
                 result(
