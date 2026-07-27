@@ -4,6 +4,8 @@
 * Android compile SDK version upgraded to `35` (required by the transitive AndroidX dependencies of smartcar-auth `4.3.1`).
 * Android: `SmartcarCallback` is now a Kotlin `fun interface` with a nullable `SmartcarResponse?`; the plugin's response handler accepts the nullable type and no-ops on null.
 * Added `configurationError`, `noVehicles`, and `serverError` to `SmartcarErrorType` (new iOS SDK error types).
+* Android error types now resolve to a `SmartcarErrorType` instead of collapsing to `unknownError`. The Android SDK reports Smartcar Connect's raw `error` code (`access_denied`, `vehicle_incompatible`, `invalid_subscription`, `no_vehicles`, `configuration_error`, `server_error`), where iOS reports a typed error; `SmartcarErrorType.fromRawValue` now accepts both forms.
+* Android now reports a `userExitedFlow` failure when the user dismisses Connect (added in smartcar-auth `4.3.1`), matching iOS.
 
 ## 2.0.1
 * Fixes on iOS .podspec Added missing 'Extensions' folder. **Thanks to sthefannygonzaga@gmail.com**. 
