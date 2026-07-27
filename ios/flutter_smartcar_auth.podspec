@@ -4,7 +4,7 @@
 #
 Pod::Spec.new do |s|
   s.name             = 'flutter_smartcar_auth'
-  s.version          = '2.1.0'
+  s.version          = '3.0.0'
   s.summary          = 'Flutter plugin for SmartcarAuth, enabling authentication and configuration like the native Smartcar library for iOS & Android.'
   s.description      = <<-DESC
   ''

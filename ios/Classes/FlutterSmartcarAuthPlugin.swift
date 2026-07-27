@@ -32,6 +32,9 @@ public class FlutterSmartcarAuthPlugin: NSObject, FlutterPlugin, FlutterStreamHa
         "user": { urlBuilder, value in
             let _ = urlBuilder.setUser(user: value as! String)
         },
+        "externalId": { urlBuilder, value in
+            let _ = urlBuilder.setExternalId(externalId: value as! String)
+        },
     ]
     
     
@@ -72,13 +75,14 @@ public class FlutterSmartcarAuthPlugin: NSObject, FlutterPlugin, FlutterStreamHa
     /// FlutterSmartcarAuthPlugin methods used through MethodChannel
     private func setup(arguments: Dictionary<String, Any?>, result: FlutterResult) -> Void {
         self.smartcarAuth = SmartcarAuth(
-            clientId: arguments["clientId"] as! String,
-            redirectUri: arguments["redirectUri"] as! String,
-            scope: arguments["scopes"] as! Array<String>,
+            applicationId: arguments["clientId"] as! String,
+            redirectUri: arguments["redirectUri"] as? String,
+            scope: arguments["scopes"] as? Array<String>,
+            responseType: (arguments["responseType"] as? String) ?? "code",
             completionHandler: responseHandler,
             mode: SCMode(rawValue: arguments["mode"] as! String)
         )
-        
+
         result(nil)
     }
     
@@ -116,16 +120,20 @@ public class FlutterSmartcarAuthPlugin: NSObject, FlutterPlugin, FlutterStreamHa
         code: String?,
         state: String?,
         virtualKeyUrl: String?,
+        userId: String?,
+        externalId: String?,
         error: AuthorizationError?
     ) -> Void {
         if (self.eventSink != nil) {
             var data: [String : Any?]
-            
+
             if (error == nil) {
                 data = [
                     "code": code,
                     "state": state,
                     "virtualKeyUrl": virtualKeyUrl,
+                    "userId": userId,
+                    "externalId": externalId,
                 ]
             } else {
                 data = [

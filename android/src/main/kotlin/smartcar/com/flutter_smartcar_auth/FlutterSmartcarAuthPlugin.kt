@@ -49,6 +49,9 @@ class FlutterSmartcarAuthPlugin : FlutterPlugin, MethodCallHandler, EventChannel
             "user" to { urlBuilder, value ->
                 urlBuilder.setUser(value!!.toString())
             },
+            "externalId" to { urlBuilder, value ->
+                urlBuilder.setExternalId(value!!.toString())
+            },
         )
 
     /** FlutterPlugin */
@@ -90,9 +93,10 @@ class FlutterSmartcarAuthPlugin : FlutterPlugin, MethodCallHandler, EventChannel
             smartcarAuth =
                 SmartcarAuth(
                     arguments["clientId"].toString(),
-                    arguments["redirectUri"].toString(),
+                    arguments["redirectUri"]?.toString(),
                     (arguments["scopes"] as List<String>).toTypedArray(),
                     arguments["mode"].toString() != "live",
+                    arguments["responseType"]?.toString() ?: "code",
                     { responseHandler(it) }
                 )
 
@@ -139,7 +143,9 @@ class FlutterSmartcarAuthPlugin : FlutterPlugin, MethodCallHandler, EventChannel
                     hashMapOf(
                         "code" to smartcarResponse.code,
                         "virtualKeyUrl" to smartcarResponse.virtualKeyUrl,
-                        "state" to smartcarResponse.state
+                        "state" to smartcarResponse.state,
+                        "userId" to smartcarResponse.userId,
+                        "externalId" to smartcarResponse.externalId
                     )
                 )
             } else {

@@ -5,10 +5,10 @@ sealed class SmartcarAuthResponse {
   const SmartcarAuthResponse();
 
   static SmartcarAuthResponse fromMap(Map<String, dynamic> map) {
-    if (map["code"] != null) {
-      return SmartcarAuthSuccess.fromMap(map);
-    } else {
+    if (map["type"] != null) {
       return SmartcarAuthFailure.fromMap(map);
+    } else {
+      return SmartcarAuthSuccess.fromMap(map);
     }
   }
 }
@@ -19,9 +19,13 @@ final class SmartcarAuthSuccess extends SmartcarAuthResponse {
     required this.code,
     required this.state,
     required this.virtualKeyUrl,
+    this.userId,
+    this.externalId,
   });
 
   /// The code received after the user grants permission.
+  ///
+  /// Not present when `responseType` is `SmartcarResponseType.none`.
   final String? code;
 
   /// If the optional `state` parameter is provided in `AuthUrlBuilder` then it will be returned.
@@ -29,11 +33,19 @@ final class SmartcarAuthSuccess extends SmartcarAuthResponse {
 
   final String? virtualKeyUrl;
 
+  /// The Smartcar user ID of the user who granted access.
+  final String? userId;
+
+  /// The `externalId` provided in `AuthUrlBuilder`, if any.
+  final String? externalId;
+
   factory SmartcarAuthSuccess.fromMap(Map<String, dynamic> map) {
     return SmartcarAuthSuccess(
       code: map["code"],
       state: map["state"],
       virtualKeyUrl: map["virtualKeyUrl"],
+      userId: map["userId"],
+      externalId: map["externalId"],
     );
   }
 
@@ -43,11 +55,14 @@ final class SmartcarAuthSuccess extends SmartcarAuthResponse {
         '\tcode: $code,\n'
         '\tstate: $state,\n'
         '\tvirtualKeyUrl: $virtualKeyUrl,\n'
+        '\tuserId: $userId,\n'
+        '\texternalId: $externalId,\n'
         ')';
   }
 
   @override
-  int get hashCode => Object.hash(code.hashCode, state.hashCode, virtualKeyUrl.hashCode);
+  int get hashCode =>
+      Object.hash(code.hashCode, state.hashCode, virtualKeyUrl.hashCode, userId.hashCode, externalId.hashCode);
 
   @override
   bool operator ==(Object other) {
@@ -56,7 +71,9 @@ final class SmartcarAuthSuccess extends SmartcarAuthResponse {
     return other is SmartcarAuthSuccess &&
         other.code == code &&
         other.state == state &&
-        other.virtualKeyUrl == virtualKeyUrl;
+        other.virtualKeyUrl == virtualKeyUrl &&
+        other.userId == userId &&
+        other.externalId == externalId;
   }
 }
 
