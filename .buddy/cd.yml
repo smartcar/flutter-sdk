@@ -18,7 +18,7 @@
     - "flutter --version"
     - ""
     - "mkdir -p ~/.config/dart"
-    - "cat /buddy-variables/pub_dev_credentials > ~/.config/dart/pub-credentials.json"
+    - "printf '%s' \"$pub_dev_credentials\" > ~/.config/dart/pub-credentials.json"
     - ""
     - "flutter pub get"
     - "flutter analyze"
