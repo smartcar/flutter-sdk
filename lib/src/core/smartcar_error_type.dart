@@ -1,5 +1,26 @@
 import 'package:collection/collection.dart';
 
+/// Smartcar Connect's raw `error` query parameter values mapped onto [SmartcarErrorType].
+///
+/// The Android SDK forwards the parameter verbatim, so these are the values the Android side of the
+/// plugin reports. The iOS SDK resolves them to a typed error before the plugin sees them.
+///
+/// Two are not Connect parameters: the Android SDK synthesizes `user_exited` when the user
+/// dismisses Connect, and the Android side of the plugin synthesizes `missing_auth_code` when a
+/// `code` flow completes without returning one.
+const Map<String, SmartcarErrorType> _connectErrorCodes = {
+  'missing_auth_code': SmartcarErrorType.missingAuthCode,
+  'access_denied': SmartcarErrorType.accessDenied,
+  'vehicle_incompatible': SmartcarErrorType.vehicleIncompatible,
+  'invalid_subscription': SmartcarErrorType.invalidSubscription,
+  'no_vehicles': SmartcarErrorType.noVehicles,
+  'configuration_error': SmartcarErrorType.configurationError,
+  'server_error': SmartcarErrorType.serverError,
+  'user_exited': SmartcarErrorType.userExitedFlow,
+  'user_cancelled': SmartcarErrorType.userExitedFlow,
+  'user_manually_returned_to_application': SmartcarErrorType.userExitedFlow,
+};
+
 /// Error type that gets created when the authorization flow exits with an error.
 enum SmartcarErrorType {
   missingQueryParameters,
@@ -8,9 +29,19 @@ enum SmartcarErrorType {
   vehicleIncompatible,
   invalidSubscription,
   userExitedFlow,
+  configurationError,
+  noVehicles,
+  serverError,
   unknownError;
 
+  /// Resolves the error type reported by the platform side of the plugin.
+  ///
+  /// iOS reports a typed error, so the value is the name of this enum. Android reports Smartcar
+  /// Connect's raw `error` code, so the value is snake_case (for example `access_denied`). Both
+  /// forms resolve here; anything unrecognized resolves to [unknownError].
   static SmartcarErrorType fromRawValue(String raw) {
-    return values.firstWhereOrNull((e) => e.name == raw) ?? SmartcarErrorType.unknownError;
+    return _connectErrorCodes[raw] ??
+        values.firstWhereOrNull((e) => e.name == raw) ??
+        SmartcarErrorType.unknownError;
   }
 }

@@ -32,6 +32,9 @@ public class FlutterSmartcarAuthPlugin: NSObject, FlutterPlugin, FlutterStreamHa
         "user": { urlBuilder, value in
             let _ = urlBuilder.setUser(user: value as! String)
         },
+        "externalId": { urlBuilder, value in
+            let _ = urlBuilder.setExternalId(externalId: value as! String)
+        },
     ]
     
     
@@ -72,32 +75,51 @@ public class FlutterSmartcarAuthPlugin: NSObject, FlutterPlugin, FlutterStreamHa
     /// FlutterSmartcarAuthPlugin methods used through MethodChannel
     private func setup(arguments: Dictionary<String, Any?>, result: FlutterResult) -> Void {
         self.smartcarAuth = SmartcarAuth(
-            clientId: arguments["clientId"] as! String,
-            redirectUri: arguments["redirectUri"] as! String,
-            scope: arguments["scopes"] as! Array<String>,
+            applicationId: arguments["clientId"] as! String,
+            redirectUri: arguments["redirectUri"] as? String,
+            scope: arguments["scopes"] as? Array<String>,
+            responseType: (arguments["responseType"] as? String) ?? "code",
             completionHandler: responseHandler,
             mode: SCMode(rawValue: arguments["mode"] as! String)
         )
-        
+
         result(nil)
     }
     
+    private func rootViewController() -> UIViewController? {
+        return UIApplication.shared.connectedScenes
+            .compactMap { $0 as? UIWindowScene }
+            .flatMap { $0.windows }
+            .first { $0.isKeyWindow }?.rootViewController
+    }
+
     private func launchAuthFlow(arguments: Dictionary<String, Any?>, result: FlutterResult) -> Void {
         do {
             if (self.smartcarAuth != nil) {
+                guard let viewController = rootViewController() else {
+                    result(
+                        FlutterError(
+                            code: "LAUNCH_AUTH_FLOW_ERROR",
+                            message: "Unable to find a root view controller to present Smartcar Connect.",
+                            details: nil
+                        )
+                    )
+                    return
+                }
+
                 let authUrl = self.smartcarAuth!.authUrlBuilder()
-                
+
                 arguments.forEach { body in
                     authUrlActions[body.key]?(authUrl, body.value)
                 }
-                
+
                 let url = authUrl.build()
-                
+
                 self.smartcarAuth!.launchAuthFlow(
                     url: url,
-                    viewController: UIApplication.shared.delegate!.window!!.rootViewController!
+                    viewController: viewController
                 )
-                
+
                 result(nil)
             } else {
                 result(
@@ -116,16 +138,20 @@ public class FlutterSmartcarAuthPlugin: NSObject, FlutterPlugin, FlutterStreamHa
         code: String?,
         state: String?,
         virtualKeyUrl: String?,
+        userId: String?,
+        externalId: String?,
         error: AuthorizationError?
     ) -> Void {
         if (self.eventSink != nil) {
             var data: [String : Any?]
-            
+
             if (error == nil) {
                 data = [
                     "code": code,
                     "state": state,
                     "virtualKeyUrl": virtualKeyUrl,
+                    "userId": userId,
+                    "externalId": externalId,
                 ]
             } else {
                 data = [

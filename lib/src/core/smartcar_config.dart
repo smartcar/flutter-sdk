@@ -5,8 +5,13 @@ final class SmartcarConfig {
   /// The client's ID
   final String clientId;
 
-  /// The application’s redirect URI
-  final String redirectUri;
+  /// The application's redirect URI
+  ///
+  /// Required when [responseType] is [SmartcarResponseType.code], which is the default: the native
+  /// SDKs use it to intercept the redirect, and both reject a `code` flow without one. Omit it only
+  /// when [responseType] is [SmartcarResponseType.none], where Connect completes the flow without a
+  /// redirect. `Smartcar.setup` throws an [ArgumentError] on the unsupported combination.
+  final String? redirectUri;
 
   /// An array of authorization scopes
   ///
@@ -18,19 +23,26 @@ final class SmartcarConfig {
   /// Defaults to `live` mode.
   final SmartcarMode mode;
 
+  /// Determines whether Connect completes the flow via redirect (`code`) or without one (`none`).
+  ///
+  /// Defaults to [SmartcarResponseType.code].
+  final SmartcarResponseType responseType;
+
   const SmartcarConfig({
     required this.clientId,
-    required this.redirectUri,
+    this.redirectUri,
     required this.scopes,
     this.mode = SmartcarMode.live,
+    this.responseType = SmartcarResponseType.code,
   });
 
   Map<String, dynamic> toMap() {
     return {
       "clientId": clientId,
-      "redirectUri": redirectUri,
+      if (redirectUri != null) "redirectUri": redirectUri,
       "scopes": scopes.map((e) => e.value).toList(),
       "mode": mode.name,
+      "responseType": responseType.value,
     };
   }
 
@@ -40,12 +52,14 @@ final class SmartcarConfig {
         '\tclientId: $clientId,\n'
         '\tredirectUri: $redirectUri,\n'
         '\tscopes: $scopes,\n'
-        '\tmode: $mode\n'
+        '\tmode: $mode,\n'
+        '\tresponseType: $responseType\n'
         ')';
   }
 
   @override
-  int get hashCode => Object.hash(clientId.hashCode, redirectUri.hashCode, scopes.hashCode, mode.hashCode);
+  int get hashCode =>
+      Object.hash(clientId.hashCode, redirectUri.hashCode, scopes.hashCode, mode.hashCode, responseType.hashCode);
 
   @override
   bool operator ==(Object other) {
@@ -55,6 +69,7 @@ final class SmartcarConfig {
         other.clientId == clientId &&
         other.redirectUri == redirectUri &&
         other.scopes == scopes &&
-        other.mode == mode;
+        other.mode == mode &&
+        other.responseType == responseType;
   }
 }

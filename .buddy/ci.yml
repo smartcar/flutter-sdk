@@ -1,0 +1,28 @@
+- pipeline: "CI"
+  events:
+  - type: "PUSH"
+    refs:
+    - "refs/heads/*"
+  fail_on_prepare_env_warning: true
+  actions:
+  - action: "Build"
+    type: "BUILD"
+    docker_image_name: "library/debian"
+    docker_image_tag: "bookworm-slim"
+    execute_commands:
+    - "export PATH=\"$PATH:/opt/flutter/bin\""
+    - "if [ ! -x /opt/flutter/bin/flutter ]; then"
+    - "  git clone https://github.com/flutter/flutter.git -b stable --depth 1 /opt/flutter"
+    - "fi"
+    - "flutter --disable-analytics"
+    - "flutter --version"
+    - ""
+    - "flutter pub get"
+    - "flutter analyze"
+    - "flutter test"
+    setup_commands:
+    - "apt-get update && apt-get install -y git curl ca-certificates unzip xz-utils"
+    cached_dirs:
+    - "/opt/flutter"
+    - "/root/.pub-cache"
+    shell: "BASH"

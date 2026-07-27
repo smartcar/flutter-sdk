@@ -1,9 +1,9 @@
 PODS:
   - Flutter (1.0.0)
-  - flutter_smartcar_auth (1.0.6):
+  - flutter_smartcar_auth (3.0.0):
     - Flutter
-    - SmartcarAuth (= 6.0.2)
-  - SmartcarAuth (6.0.2)
+    - SmartcarAuth (= 6.5.0)
+  - SmartcarAuth (6.5.0)
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
@@ -20,10 +20,10 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_smartcar_auth/ios"
 
 SPEC CHECKSUMS:
-  Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
-  flutter_smartcar_auth: c137f5ba8694193eaf19e1835641b009f5e4b3fb
-  SmartcarAuth: 4c00735620d02b37ab966c8290d1d302580f16e1
+  Flutter: cabc95a1d2626b1b06e7179b784ebcf0c0cde467
+  flutter_smartcar_auth: 92bef30a9715975c158e9f6b93b1f17a2903fe4b
+  SmartcarAuth: b5d20fc5c232070a728bc53a1d12d94c4902ed32
 
-PODFILE CHECKSUM: cc1f88378b4bfcf93a6ce00d2c587857c6008d3b
+PODFILE CHECKSUM: 775997f741c536251164e3eacf6e34abf2eb7a17
 
-COCOAPODS: 1.15.2
+COCOAPODS: 1.16.2

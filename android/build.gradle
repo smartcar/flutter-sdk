@@ -1,5 +1,5 @@
 group 'smartcar.com.flutter_smartcar_auth'
-version '2.0.0'
+version '3.0.0'
 
 buildscript {
     ext.kotlin_version = '2.0.0'
@@ -26,7 +26,7 @@ apply plugin: 'kotlin-android'
 
 android {
     namespace "smartcar.com.flutter_smartcar_auth"
-    compileSdk 34
+    compileSdk 35
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -47,6 +47,6 @@ android {
     }
 
     dependencies {
-        implementation 'com.smartcar.sdk:smartcar-auth:4.0.1'
+        implementation 'com.smartcar.sdk:smartcar-auth:4.3.1'
     }
 }

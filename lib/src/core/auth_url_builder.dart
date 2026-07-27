@@ -44,7 +44,12 @@ final class AuthUrlBuilder {
   final List<String>? flags;
 
   /// Specify a unique identifier for the vehicle owner to track and aggregate analytics across Connect sessions for each vehicle owner.
+  @Deprecated('Use externalId instead')
   final String? user;
+
+  /// Specify a unique identifier for the vehicle owner to track and aggregate analytics across Connect
+  /// sessions for each vehicle owner, look up connections, and receive in webhook payloads.
+  final String? externalId;
 
   /// A class used for generating Smartcar Connect authorization URLs.
   const AuthUrlBuilder({
@@ -54,7 +59,8 @@ final class AuthUrlBuilder {
     this.make,
     this.vin,
     this.flags,
-    this.user,
+    @Deprecated('Use externalId instead') this.user,
+    this.externalId,
   });
 
   Map<String, dynamic> toMap() {
@@ -65,7 +71,9 @@ final class AuthUrlBuilder {
       if (make != null) 'make': make,
       if (vin != null) 'vin': vin,
       if (flags != null) 'flags': flags,
+      // ignore: deprecated_member_use_from_same_package
       if (user != null) 'user': user,
+      if (externalId != null) 'externalId': externalId,
     };
   }
 
@@ -78,7 +86,9 @@ final class AuthUrlBuilder {
         '\tmake: $make,\n'
         '\tvin: $vin,\n'
         '\tflags: $flags,\n'
+        // ignore: deprecated_member_use_from_same_package
         '\tuser: $user,\n'
+        '\texternalId: $externalId,\n'
         ')';
   }
 
@@ -89,7 +99,9 @@ final class AuthUrlBuilder {
         state.hashCode,
         make.hashCode,
         vin.hashCode,
+        // ignore: deprecated_member_use_from_same_package
         user.hashCode,
+        externalId.hashCode,
       );
 
   @override
@@ -102,6 +114,8 @@ final class AuthUrlBuilder {
         other.state == state &&
         other.make == make &&
         other.vin == vin &&
-        other.user == user;
+        // ignore: deprecated_member_use_from_same_package
+        other.user == user &&
+        other.externalId == externalId;
   }
 }
