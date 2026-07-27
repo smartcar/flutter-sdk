@@ -26,6 +26,9 @@ class FlutterSmartcarAuthPlugin : FlutterPlugin, MethodCallHandler, EventChannel
     /** SmartcarAuth instance */
     private lateinit var smartcarAuth: SmartcarAuth
 
+    /** The responseType the current SmartcarAuth instance was configured with */
+    private var responseType: String = "code"
+
     private val authUrlActions: HashMap<String, (urlBuilder: AuthUrlBuilder, value: Any?) -> Unit> =
         hashMapOf(
             "forcePrompt" to { urlBuilder, value ->
@@ -89,6 +92,8 @@ class FlutterSmartcarAuthPlugin : FlutterPlugin, MethodCallHandler, EventChannel
     /** FlutterSmartcarPlugin methods used through MethodChannel */
     private fun setup(arguments: HashMap<String, Any>, result: MethodChannel.Result) {
         try {
+            responseType = arguments["responseType"]?.toString() ?: "code"
+
             @Suppress("UNCHECKED_CAST")
             smartcarAuth =
                 SmartcarAuth(
@@ -96,7 +101,7 @@ class FlutterSmartcarAuthPlugin : FlutterPlugin, MethodCallHandler, EventChannel
                     arguments["redirectUri"]?.toString(),
                     (arguments["scopes"] as List<String>).toTypedArray(),
                     arguments["mode"].toString() != "live",
-                    arguments["responseType"]?.toString() ?: "code",
+                    responseType,
                     { responseHandler(it) }
                 )
 
@@ -138,7 +143,14 @@ class FlutterSmartcarAuthPlugin : FlutterPlugin, MethodCallHandler, EventChannel
         if (eventSink != null) {
             val data: HashMap<String, Any?> = hashMapOf()
 
-            if (smartcarResponse.error == null) {
+            // The SDK reports a code flow that returned no code by setting only
+            // errorDescription, so report it as an error rather than as a success carrying a
+            // null code. A `none` flow completes successfully without a code by design.
+            val missingAuthCode = smartcarResponse.error == null &&
+                    smartcarResponse.code == null &&
+                    responseType != "none"
+
+            if (smartcarResponse.error == null && !missingAuthCode) {
                 data.putAll(
                     hashMapOf(
                         "code" to smartcarResponse.code,
@@ -151,7 +163,7 @@ class FlutterSmartcarAuthPlugin : FlutterPlugin, MethodCallHandler, EventChannel
             } else {
                 data.putAll(
                     hashMapOf(
-                        "type" to smartcarResponse.error,
+                        "type" to (smartcarResponse.error ?: "missing_auth_code"),
                         "description" to smartcarResponse.errorDescription
                     )
                 )

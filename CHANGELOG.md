@@ -11,6 +11,8 @@
 * **FEAT**: added `externalId` property to `AuthUrlBuilder`, replacing the now-deprecated `user` property.
 * **FEAT**: added `userId` and `externalId` properties to `SmartcarAuthSuccess`.
 * **FIX**: `SmartcarAuthResponse.fromMap` now determines success/failure by checking for an error `type` instead of a non-null `code`, since `code` is legitimately absent on a successful `responseType: none` flow.
+* **FIX**: Android now reports a `code` flow that completed without a code as `missingAuthCode`, matching iOS. It previously carried no error type at all, which the change above would have surfaced as a `SmartcarAuthSuccess` holding a null `code`.
+* **FIX**: `Smartcar.setup` throws an `ArgumentError` when `redirectUri` is missing on a `SmartcarResponseType.code` flow. Both native SDKs reject that combination, and on iOS the rejection is a `precondition` that terminates the app.
 
 ## 2.0.1
 * Fixes on iOS .podspec Added missing 'Extensions' folder. **Thanks to sthefannygonzaga@gmail.com**.

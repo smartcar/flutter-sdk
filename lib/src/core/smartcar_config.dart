@@ -7,10 +7,10 @@ final class SmartcarConfig {
 
   /// The application's redirect URI
   ///
-  /// Optional. When [responseType] is [SmartcarResponseType.code] and this is omitted, Smartcar
-  /// Connect falls back to the default redirect URI configured on the Smartcar developer
-  /// dashboard. When [responseType] is [SmartcarResponseType.none], no redirect URI is needed and
-  /// no fallback occurs.
+  /// Required when [responseType] is [SmartcarResponseType.code], which is the default: the native
+  /// SDKs use it to intercept the redirect, and both reject a `code` flow without one. Omit it only
+  /// when [responseType] is [SmartcarResponseType.none], where Connect completes the flow without a
+  /// redirect. `Smartcar.setup` throws an [ArgumentError] on the unsupported combination.
   final String? redirectUri;
 
   /// An array of authorization scopes

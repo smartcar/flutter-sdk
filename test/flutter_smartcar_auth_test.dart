@@ -1,7 +1,10 @@
+import 'package:flutter/services.dart';
 import 'package:flutter_smartcar_auth/flutter_smartcar_auth.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+
   group('SmartcarErrorType.fromRawValue', () {
     test('resolves the error type names reported by iOS', () {
       for (final type in SmartcarErrorType.values) {
@@ -88,16 +91,119 @@ void main() {
       );
     });
 
-    test('parses a failure response with a missing type', () {
-      final response = SmartcarAuthResponse.fromMap({'description': 'Something went wrong'});
+    test('parses a responseType none success, which carries no code', () {
+      final response = SmartcarAuthResponse.fromMap({
+        'code': null,
+        'state': 'test-state',
+        'virtualKeyUrl': null,
+        'userId': 'test-user-id',
+        'externalId': 'test-external-id',
+      });
+
+      expect(
+        response,
+        const SmartcarAuthSuccess(
+          code: null,
+          state: 'test-state',
+          virtualKeyUrl: null,
+          userId: 'test-user-id',
+          externalId: 'test-external-id',
+        ),
+      );
+    });
+
+    test('parses a code flow that returned no code as missingAuthCode', () {
+      final response = SmartcarAuthResponse.fromMap({
+        'type': 'missing_auth_code',
+        'description': 'Unable to fetch code. Please try again',
+      });
 
       expect(
         response,
         const SmartcarAuthFailure(
-          type: SmartcarErrorType.unknownError,
-          description: 'Something went wrong',
+          type: SmartcarErrorType.missingAuthCode,
+          description: 'Unable to fetch code. Please try again',
         ),
       );
+    });
+  });
+
+  group('Smartcar.setup', () {
+    const channel = MethodChannel('smartcar/flutter_smartcar_auth');
+    final calls = <MethodCall>[];
+
+    setUp(() {
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(
+        channel,
+        (call) async {
+          calls.add(call);
+          return null;
+        },
+      );
+    });
+
+    tearDown(() {
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+          .setMockMethodCallHandler(channel, null);
+      calls.clear();
+    });
+
+    test('rejects a code flow without a redirectUri', () async {
+      await expectLater(
+        Smartcar.setup(
+          configuration: const SmartcarConfig(clientId: 'test-client-id', scopes: []),
+        ),
+        throwsArgumentError,
+      );
+
+      expect(calls, isEmpty);
+    });
+
+    test('rejects a code flow with an empty redirectUri', () async {
+      await expectLater(
+        Smartcar.setup(
+          configuration: const SmartcarConfig(
+            clientId: 'test-client-id',
+            redirectUri: '',
+            scopes: [],
+          ),
+        ),
+        throwsArgumentError,
+      );
+
+      expect(calls, isEmpty);
+    });
+
+    test('allows a none flow without a redirectUri', () async {
+      await Smartcar.setup(
+        configuration: const SmartcarConfig(
+          clientId: 'test-client-id',
+          scopes: [SmartcarPermission.readOdometer],
+          responseType: SmartcarResponseType.none,
+        ),
+      );
+
+      expect(calls, hasLength(1));
+      expect(calls.single.method, 'setup');
+      expect(calls.single.arguments, {
+        'clientId': 'test-client-id',
+        'scopes': [SmartcarPermission.readOdometer.value],
+        'mode': 'live',
+        'responseType': 'none',
+      });
+    });
+
+    test('passes a code flow through with its redirectUri', () async {
+      await Smartcar.setup(
+        configuration: const SmartcarConfig(
+          clientId: 'test-client-id',
+          redirectUri: 'sc-test://example',
+          scopes: [],
+        ),
+      );
+
+      expect(calls.single.arguments, containsPair('redirectUri', 'sc-test://example'));
+      expect(calls.single.arguments, containsPair('responseType', 'code'));
     });
   });
 }

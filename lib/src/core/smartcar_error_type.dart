@@ -4,9 +4,12 @@ import 'package:collection/collection.dart';
 ///
 /// The Android SDK forwards the parameter verbatim, so these are the values the Android side of the
 /// plugin reports. The iOS SDK resolves them to a typed error before the plugin sees them.
-/// `user_exited` is the exception: it is not a Connect parameter, the Android SDK synthesizes it
-/// when the user dismisses Connect.
+///
+/// Two are not Connect parameters: the Android SDK synthesizes `user_exited` when the user
+/// dismisses Connect, and the Android side of the plugin synthesizes `missing_auth_code` when a
+/// `code` flow completes without returning one.
 const Map<String, SmartcarErrorType> _connectErrorCodes = {
+  'missing_auth_code': SmartcarErrorType.missingAuthCode,
   'access_denied': SmartcarErrorType.accessDenied,
   'vehicle_incompatible': SmartcarErrorType.vehicleIncompatible,
   'invalid_subscription': SmartcarErrorType.invalidSubscription,
