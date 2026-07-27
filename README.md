@@ -63,7 +63,7 @@ The minimum iOS target version required is 14.
 
 Import `package:flutter_smartcar_auth/flutter_smartcar_auth.dart` and use the methods in Smartcar class.
 
-`SmartcarConfig.redirectUri` is optional: it's only required when `responseType` is `SmartcarResponseType.code` (the default). Set `responseType: SmartcarResponseType.none` to complete the flow without a redirect, in which case `redirectUri` can be omitted. `AuthUrlBuilder.externalId` (replacing the deprecated `user`) lets you tag a Connect session with your own identifier for a vehicle owner; it's echoed back on `SmartcarAuthSuccess.externalId`, alongside the Smartcar `userId` of the user who granted access.
+`SmartcarConfig.redirectUri` is required when `responseType` is `SmartcarResponseType.code` (the default) — `Smartcar.setup` throws an `ArgumentError` if it's missing in that case. Set `responseType: SmartcarResponseType.none` to complete the flow without a redirect, in which case `redirectUri` can be omitted. `AuthUrlBuilder.externalId` (replacing the deprecated `user`) lets you tag a Connect session with your own identifier for a vehicle owner; it's echoed back on `SmartcarAuthSuccess.externalId`, alongside the Smartcar `userId` of the user who granted access.
 
 Example:
 
