@@ -88,6 +88,32 @@ class _SmartcarAuthMenuState extends State<_SmartcarAuthMenu> {
     );
   }
 
+  Future<void> _runAuthFlow(Future<void> Function() action) async {
+    try {
+      await _setup();
+      await action();
+    } catch (error) {
+      if (!mounted) return;
+
+      final scaffoldMessenger = ScaffoldMessenger.of(context);
+
+      scaffoldMessenger.showMaterialBanner(
+        MaterialBanner(
+          backgroundColor: Colors.redAccent,
+          content: Text(
+            '$error',
+            style: const TextStyle(color: Colors.white),
+          ),
+          actions: const [SizedBox.shrink()],
+        ),
+      );
+
+      Future.delayed(
+        const Duration(seconds: 3),
+      ).then((_) => scaffoldMessenger.hideCurrentMaterialBanner());
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -154,20 +180,18 @@ class _SmartcarAuthMenuState extends State<_SmartcarAuthMenu> {
               const SizedBox(height: 24),
               MaterialButton(
                 color: Theme.of(context).colorScheme.primaryContainer,
-                onPressed: () async {
-                  await _setup();
-                  await Smartcar.launchAuthFlow(
+                onPressed: () => _runAuthFlow(
+                  () => Smartcar.launchAuthFlow(
                     authUrlBuilder: AuthUrlBuilder(
                       externalId: _valueOrNull(_externalIdController),
                     ),
-                  );
-                },
+                  ),
+                ),
                 child: const Text("Launch Auth Flow"),
               ),
               MaterialButton(
-                onPressed: () async {
-                  await _setup();
-                  await Smartcar.launchAuthFlow(
+                onPressed: () => _runAuthFlow(
+                  () => Smartcar.launchAuthFlow(
                     authUrlBuilder: AuthUrlBuilder(
                       flags: const [
                         'tesla_auth:true',
@@ -175,8 +199,8 @@ class _SmartcarAuthMenuState extends State<_SmartcarAuthMenu> {
                       singleSelect: true,
                       externalId: _valueOrNull(_externalIdController),
                     ),
-                  );
-                },
+                  ),
+                ),
                 child: const Text("Launch Auth Flow with Tesla Flag"),
               ),
               if (_lastResponseJson != null) ...[
