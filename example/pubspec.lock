@@ -65,9 +65,10 @@ packages:
   flutter_smartcar_auth:
     dependency: "direct main"
     description:
-      path: ".."
-      relative: true
-    source: path
+      name: flutter_smartcar_auth
+      sha256: "92c09ca0143bae38c4d3d5ea670e4dce309bbfd52afb631ecf21450eb4568a4d"
+      url: "https://pub.dev"
+    source: hosted
     version: "3.0.0"
   flutter_test:
     dependency: "direct dev"

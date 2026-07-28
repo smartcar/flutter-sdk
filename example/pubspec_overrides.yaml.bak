@@ -1,0 +1,12 @@
+# Local development override: while this file is present, `flutter pub get`
+# uses the plugin's source in this repo instead of the published pub.dev
+# package declared in pubspec.yaml.
+#
+# To test against the live pub.dev package instead, temporarily move or
+# delete this file, then run `flutter pub get` again:
+#   mv pubspec_overrides.yaml pubspec_overrides.yaml.bak
+#   flutter pub get
+# Restore it (and re-run `flutter pub get`) to go back to local development.
+dependency_overrides:
+  flutter_smartcar_auth:
+    path: ../
