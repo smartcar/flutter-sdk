@@ -193,3 +193,50 @@ class _SmartcarAuthMenuState extends State<_SmartcarAuthMenu> {
 
 
 ```
+
+## Development
+
+### Spinning up the simulators
+
+**Android:**
+
+```
+flutter emulators                    # list available emulators
+flutter emulators --launch <id>      # boot one
+cd example
+flutter run -d <device-id>           # flutter devices lists connected/booted device IDs
+```
+
+**iOS:**
+
+```
+open -a Simulator                    # opens the Simulator app
+xcrun simctl list devices            # find a device UDID to boot
+xcrun simctl boot <udid>             # or pick one from Xcode > Open Developer Tool > Simulator
+cd example
+flutter run -d <udid>
+```
+
+### Swapping between the local and live package
+
+The example app depends on `flutter_smartcar_auth: ^x.y.z` (the published pub.dev package) in `example/pubspec.yaml`, but `example/pubspec_overrides.yaml` overrides that to a `path: ../` dependency on this repo's source — so by default, `flutter pub get` resolves to **local** code.
+
+To test against the **live** pub.dev package instead:
+
+```
+cd example
+mv pubspec_overrides.yaml pubspec_overrides.yaml.bak
+flutter pub get
+```
+
+To go back to local development:
+
+```
+mv pubspec_overrides.yaml.bak pubspec_overrides.yaml
+flutter pub get
+```
+
+**To check which one is currently active**, check `example/pubspec.lock`'s entry for `flutter_smartcar_auth`:
+
+- Local: `source: path`, with a `path: ".."` description (no `sha256`/`url`).
+- Live: `source: hosted`, with a `sha256` and `url: "https://pub.dev"` in the description.
