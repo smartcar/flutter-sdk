@@ -1,3 +1,9 @@
+## 3.0.1
+* **FIX**: Upgraded SmartcarAuth Android SDK to `4.3.2`, fixing Connect steps that open a
+  link in a new tab (e.g. Tesla's virtual-key pairing "Continue to Tesla" step) replacing
+  the Connect WebView entirely instead of opening the link externally, which left the user
+  stranded with no way back to Connect.
+
 ## 3.0.0 [Breaking Changes]
 * Upgraded SmartcarAuth iOS SDK to `6.5.0`.
 * Upgraded SmartcarAuth Android SDK to `4.3.1`.
