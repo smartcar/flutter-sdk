@@ -7,7 +7,5 @@ enum SmartcarMode {
   test,
 
   /// Allows users to connect to simulated vehicles created on the Smartcar developer dashboard.
-  ///
-  /// 🚩 **This mode does not have effect on Android** 🚩
   simulated;
 }

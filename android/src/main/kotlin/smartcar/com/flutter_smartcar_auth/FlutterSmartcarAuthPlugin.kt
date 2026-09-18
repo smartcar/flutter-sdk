@@ -1,6 +1,7 @@
 package smartcar.com.flutter_smartcar_auth
 
 import android.content.Context
+import com.smartcar.sdk.Mode
 import com.smartcar.sdk.SmartcarAuth
 import com.smartcar.sdk.SmartcarAuth.AuthUrlBuilder
 import com.smartcar.sdk.SmartcarCallback
@@ -90,9 +91,16 @@ class FlutterSmartcarAuthPlugin : FlutterPlugin, MethodCallHandler, EventChannel
     }
 
     /** FlutterSmartcarPlugin methods used through MethodChannel */
+    @Suppress("DEPRECATION")
     private fun setup(arguments: HashMap<String, Any>, result: MethodChannel.Result) {
         try {
             responseType = arguments["responseType"]?.toString() ?: "code"
+
+            val mode = when (arguments["mode"].toString()) {
+                "simulated" -> Mode.SIMULATED
+                "test" -> Mode.TEST
+                else -> Mode.LIVE
+            }
 
             @Suppress("UNCHECKED_CAST")
             smartcarAuth =
@@ -100,7 +108,7 @@ class FlutterSmartcarAuthPlugin : FlutterPlugin, MethodCallHandler, EventChannel
                     arguments["clientId"].toString(),
                     arguments["redirectUri"]?.toString(),
                     (arguments["scopes"] as List<String>).toTypedArray(),
-                    arguments["mode"].toString() != "live",
+                    mode,
                     responseType,
                     { responseHandler(it) }
                 )
