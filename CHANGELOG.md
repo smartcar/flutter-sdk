@@ -1,3 +1,14 @@
+## 3.1.1
+* **FIX**: Upgraded SmartcarAuth iOS SDK to `6.5.1`, fixing Connect steps that open a link in
+  a new tab (e.g. Tesla's virtual-key pairing "Continue to Tesla" step) doing nothing on iOS
+  when the Tesla app isn't installed. The link now opens externally (the Tesla app, or
+  Safari as a fallback) while Connect stays open underneath.
+
+## 3.1.0
+* **FEAT**: `SmartcarMode.simulated` is now supported on Android. Previously Android only
+  distinguished live from non-live, so `simulated` launched Connect in test mode.
+* Upgraded SmartcarAuth Android SDK to `4.4.0`.
+
 ## 3.0.1
 * **FIX**: Upgraded SmartcarAuth Android SDK to `4.3.2`, fixing Connect steps that open a
   link in a new tab (e.g. Tesla's virtual-key pairing "Continue to Tesla" step) replacing
